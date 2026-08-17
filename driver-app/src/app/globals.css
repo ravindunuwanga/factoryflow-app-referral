@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --color-background: #050505;
+  --color-foreground: #ffffff;
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-border: rgba(255, 255, 255, 0.08);
+  --color-primary: #ffffff;
+  --color-secondary: #a1a1aa;
+  --color-accent: #3b82f6;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+:root {
+  --background: #050505;
+  --foreground: #ffffff;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: normal;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .glass {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    backdrop-filter: blur(24px);
+  }
+  
+  .glass-hover {
+    @apply hover:bg-[rgba(255,255,255,0.06)] transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-white text-black px-6 py-3 rounded-2xl font-bold hover:bg-neutral-200 transition-all active:scale-95 disabled:opacity-50 w-full flex items-center justify-center gap-2;
+  }
+
+  .btn-secondary {
+    @apply bg-card border border-card-border text-white px-6 py-3 rounded-2xl font-bold hover:bg-[rgba(255,255,255,0.06)] transition-all active:scale-95 w-full flex items-center justify-center gap-2;
+  }
+
+  .card-premium {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    backdrop-filter: blur(24px);
+    @apply p-6 rounded-2xl shadow-2xl;
+  }
+
+  .input-premium {
+    @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.map-container {
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}

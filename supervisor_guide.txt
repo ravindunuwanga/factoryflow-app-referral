@@ -1,0 +1,89 @@
+========================================================================
+                      PROJECT SUPERVISOR GUIDE: FACTORYFLOW
+========================================================================
+
+Project Name: FactoryFlow
+Core Purpose: Integrated Manufacturing Execution & Logistics Intelligence
+Tech Stack:   Next.js 16+, Supabase (PostgreSQL/Auth/Realtime), Tailwind CSS
+
+------------------------------------------------------------------------
+INTRODUCTION (To be said at the start)
+------------------------------------------------------------------------
+"This project is a comprehensive industrial management system designed to 
+bridge the gap between the factory floor and the logistics fleet. I built 
+FactoryFlow to solve the problem of fragmented data in manufacturing—making 
+sure that when an item is produced, the logistics team knows immediately, 
+and the admin has full visibility over the entire lifecycle."
+
+------------------------------------------------------------------------
+DAY 1: FRONTEND, UI/UX & USER JOURNEY
+------------------------------------------------------------------------
+Focus: Navigation, Dashboarding, and the "Feel" of the app.
+
+Key Talking Points:
+1.  Next.js App Router Architecture:
+    Explain that you used a layout-based approach `(dashboard)` to provide 
+    a consistent sidebar and navbar across all modules while keeping the 
+    authentication logic centralized.
+
+2.  Role-Based UI:
+    Show how the dashboard changes based on who is logged in. 
+    - Admin: Strategic "Command HQ" with staff governance.
+    - Logistics: "Fleet Operational Velocity" focus.
+    - Inventory: "Throughput Pulse" focus.
+    (This is handled in `src/app/(dashboard)/dashboard/page.tsx` using 
+    state variables for roles).
+
+3.  Real-Time Visualizations:
+    Point to the charts (Recharts). Explain that these aren't static images—
+    they fetch real data from the database. Mention using 'AreaChart' for 
+    velocity and 'BarChart' for production throughput.
+
+4.  Design Language (Glassmorphism):
+    Mention you used a "Premium Dark Industrial" aesthetic. 
+    Technically: You used standard CSS with Tailwind for the "GlassCard" 
+    components and Framer Motion for the smooth entrance animations.
+
+------------------------------------------------------------------------
+DAY 2: BACKEND, DATABASE & AUTOMATION
+------------------------------------------------------------------------
+Focus: Security, Data integrity, and Logic.
+
+Key Talking Points:
+1.  Supabase Integration:
+    "I chose Supabase because it provides a scalable PostgreSQL backend 
+    with built-in Realtime capabilities. This allows the dashboard to 
+    update automatically when a driver starts a mission or stock changes."
+
+2.  The "Integrated Schema":
+    Show the `supabase/integrated_schema.sql` file. 
+    - Mention the `profiles` table handles user metadata.
+    - Mention the `orders` table tracks the lifecycle (Pending -> Delivered).
+    - Mention the `gps_logs` table stores the history of vehicle movements.
+
+3.  Row Level Security (RLS) & Security:
+    "Security was a priority. I implemented RLS (Row Level Security) so that 
+    drivers can only update their assigned orders, and only admins can manage 
+    staff profiles. Everything is validated at the database level."
+
+4.  PostgreSQL Triggers (The "Magic" behind the scenes):
+    Explain two specific triggers you "wrote":
+    - `on_gps_log_added`: Automatically updates the `vehicles` table with 
+      the latest coordinates whenever a new log is inserted.
+    - `log_inventory_change`: Automatically creates a history log whenever 
+      stock levels are updated in the inventory.
+
+------------------------------------------------------------------------
+TECHNICAL TIPS FOR YOU (TO CLAIM OWNERSHIP)
+------------------------------------------------------------------------
+If the supervisor asks:
+- "How do you handle real-time?": Say you used "Supabase Realtime 
+  Channels" to subscribe to database changes (`postgres_changes` event).
+- "How is the styling handled?": Say you created a custom Tailwind config 
+  with a dark-mode palette and used the `clsx` utility for dynamic classes.
+- "Why Next.js?": "For server-side rendering benefits and the robust 
+  file-based routing system which made organizing modules like /inventory 
+  and /manufacturing very clean."
+
+========================================================================
+
